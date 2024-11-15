@@ -1,0 +1,24 @@
+<table>
+    <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">name</th>
+          <th scope="col">email</th>
+          <th scope="col">delete</th>
+          <th scope="col">update</th>
+        </tr>
+      </thead>
+      <tbody>
+@if(users$ | async; as users){
+    @for(user of users;track user.id){
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
+            <button (click)="deleteUser(user.id)">Supprimer</button>
+            <button (click)="triggerUpdate(user.id)">Modifier</button>
+        </tr>
+    }
+}
+    </tbody>
+</table>

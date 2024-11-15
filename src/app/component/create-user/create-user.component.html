@@ -1,0 +1,43 @@
+<form [formGroup]="CreateForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="id">ID :</label>
+        <input id="id" formControlName="id">
+    </div>
+    @if(CreateForm.get('id')?.invalid && CreateForm.get('id')?.touched ){
+        <div>
+            @if(CreateForm.get('id')?.errors?.['required']){
+                <p>Id requis pour creer un Utilisateur</p>
+            }
+        </div>
+    }
+    <div>
+        <label for="username">Nom :</label>
+        <input id="username" formControlName="username">
+    </div>
+    @if(CreateForm.get('username')?.invalid && CreateForm.get('username')?.touched){
+        <div>
+            @if(CreateForm.get('username')?.errors?.['required']){
+                <p>Nom d'utilisateur requis pour creer un utilisateur</p>
+            }
+        </div>
+    }
+    <div>
+        <label for="email">Email :</label>
+        <input type="email" id="email" formControlName="email">
+    </div>
+    @if(CreateForm.get('email')?.invalid && CreateForm.get('email')?.touched){
+        <div>
+            @if(CreateForm.get('email')?.errors?.['required']){
+                <p>email requis pour crééer un utlisateur</p>
+            }
+        </div>
+        <div>
+            @if(CreateForm.get('email')?.errors?.['email']){
+                <p>format incorrect</p>
+            }
+        </div>
+    }
+
+    <button type="submit" [disabled]="!CreateForm.valid">S'inscrire</button>
+</form>
+<app-user-list [users$]="users$" (deleteEvent)="deleteUser($event)"></app-user-list>
