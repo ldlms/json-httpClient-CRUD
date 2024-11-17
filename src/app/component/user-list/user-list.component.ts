@@ -14,11 +14,6 @@ import { AsyncPipe } from '@angular/common';
 })
 export class UserListComponent  {
   
-
-
-
-
-
   @Output() deleteEvent = new EventEmitter<string>();
   userService:UserApiServiceService = inject(UserApiServiceService);
   route: Router = inject(Router);

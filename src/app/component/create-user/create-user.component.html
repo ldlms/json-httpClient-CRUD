@@ -1,3 +1,4 @@
+<div>
 <form [formGroup]="CreateForm" (ngSubmit)="onSubmit()">
     <div>
         <label for="id">ID :</label>
@@ -41,3 +42,4 @@
     <button type="submit" [disabled]="!CreateForm.valid">S'inscrire</button>
 </form>
 <app-user-list [users$]="users$" (deleteEvent)="deleteUser($event)"></app-user-list>
+</div>

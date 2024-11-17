@@ -1,5 +1,7 @@
 @if(user){
-    <input [(ngModel)]="user.username">
-    <input [(ngModel)]="user.email">
-    <button >valider</button>
+    <p>Id de l'utilisateur : {{user.id}}</p>
+    <input [(ngModel)]="user.username" placeholder="{{user.username}}">
+    <input [(ngModel)]="user.email" placeholder="{{user.email}}">
+    <button (click)="updateUser()" >valider</button>
+
 }
