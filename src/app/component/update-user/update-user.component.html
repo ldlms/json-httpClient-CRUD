@@ -2,6 +2,6 @@
     <p>Id de l'utilisateur : {{user.id}}</p>
     <input [(ngModel)]="user.username" placeholder="{{user.username}}">
     <input [(ngModel)]="user.email" placeholder="{{user.email}}">
-    <button (click)="updateUser()" >valider</button>
+    <button (click)="updateUser(user)" >valider</button>
 
 }

@@ -1,10 +1,11 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { UserApiServiceService } from '../../services/user-api-service.service';
+import { UserApiService } from '../../services/user-api-service.service';
 import { ActivatedRoute, ParamMap, Route, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { User } from '../../models/user';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
+import { FacadeUserService } from '../../services/facade-user.service';
 
 @Component({
   selector: 'app-update-user',
@@ -15,7 +16,8 @@ import { FormsModule, NgModel } from '@angular/forms';
 })
 export class UpdateUserComponent implements OnInit  {
 
-  userService: UserApiServiceService = inject(UserApiServiceService);
+  private _userService: UserApiService = inject(UserApiService);
+  private _facadeService:FacadeUserService = inject(FacadeUserService);
   private route: ActivatedRoute = inject(ActivatedRoute);
   private routing:Router = inject(Router);
 
@@ -29,17 +31,19 @@ export class UpdateUserComponent implements OnInit  {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params:ParamMap) =>{
       const index:string = params.get('id') as string;
-      this.user$ = this.userService.getUserById(index);
-      this.user$.subscribe(
-        response => {
-          this.user = {...response}
-        })
+      this._facadeService.getUserById$(index).pipe(
+        map(
+          response => {
+            this.user = response
+          }
+        )
+      )
     })
     
   }
 
-  updateUser(): void {
-   this.userService.updateUser(this.user).subscribe();
+  updateUser(user:User): void {
+   this._facadeService.update$(user);
    this.routing.navigate(['']);
   }
 

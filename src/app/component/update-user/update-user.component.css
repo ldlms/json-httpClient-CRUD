@@ -1,16 +1,4 @@
-
-  
-  form div {
-    margin-bottom: 15px;
-  }
-  
-  form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  form input {
+   input {
     width: 100%;
     padding: 10px;
     font-size: 14px;
@@ -19,7 +7,7 @@
     box-sizing: border-box;
   }
   
-  form button {
+  button {
     background-color: #007bff;
     color: white;
     padding: 10px 15px;
@@ -28,7 +16,7 @@
     cursor: pointer;
   }
   
-  form button:disabled {
+  button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
   }

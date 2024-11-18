@@ -1,10 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserApiServiceService } from '../../services/user-api-service.service';
+import { Component, inject} from '@angular/core';
+import { FormBuilder,ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../models/user';
 import { UserListComponent } from "../user-list/user-list.component";
-import { Observable, Subscription, tap } from 'rxjs';
+import { Observable} from 'rxjs';
 import { Router } from '@angular/router';
+import { FacadeUserService } from '../../services/facade-user.service';
 
 @Component({
   selector: 'app-create-user',
@@ -13,38 +13,28 @@ import { Router } from '@angular/router';
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
 })
-export class CreateUserComponent implements OnInit {
-
-
-  ngOnInit(): void {
-    this.userService.getUsers();
-  }
+export class CreateUserComponent {
 
   private formCreateUser = inject(FormBuilder);
-  private userService:UserApiServiceService = inject(UserApiServiceService);
+  private facadeService:FacadeUserService =inject(FacadeUserService);
   route: Router = inject(Router);
 
-  constructor(){
-    this.users$ = this.userService.users$
-  }
+  users$:Observable<User[]> = this.facadeService.getAll$();
 
-  users$:Observable<User[]>
-
-  
   CreateForm = this.formCreateUser.group({
-    id: ['',[Validators.required]],
     username: ['',[Validators.required]],
     email:['',[Validators.required,Validators.email]]
-})
+  })
 
   onSubmit():void{
    if(this.CreateForm.valid){
-    this.userService.createUser(this.CreateForm.value as User).subscribe();
+    this.facadeService.post$(this.CreateForm.value as User)
+    this.CreateForm.reset();
    }
   }
 
-  deleteUser(id:string){
-    this.userService.DeleteUser(id).subscribe()
+  deleteUser(user:User){
+    this.facadeService.delete$(user);
   }
 
 }

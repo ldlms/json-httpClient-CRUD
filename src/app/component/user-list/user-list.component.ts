@@ -1,6 +1,6 @@
-import { Component, EventEmitter, inject, Input,OnChanges,OnInit,Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, inject, Input,OnChanges,OnDestroy,OnInit,Output, SimpleChanges} from '@angular/core';
 import { User } from '../../models/user';
-import { UserApiServiceService } from '../../services/user-api-service.service';
+import { UserApiService} from '../../services/user-api-service.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
@@ -12,21 +12,22 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })
-export class UserListComponent  {
-  
-  @Output() deleteEvent = new EventEmitter<string>();
-  userService:UserApiServiceService = inject(UserApiServiceService);
+export class UserListComponent {
+  @Output() deleteEvent = new EventEmitter<User>();
+  userService:UserApiService = inject(UserApiService);
   route: Router = inject(Router);
   @Input() users$:Observable<User[]> = new Observable<User[]>
 
 
 
 
-  deleteUser(id:string){
-    this.deleteEvent.emit(id);
+  deleteUser(user:User){
+    this.deleteEvent.emit(user);
   }
 
   triggerUpdate(id:string){
     this.route.navigate([`${id}`]);
   }
+
+  
 }
