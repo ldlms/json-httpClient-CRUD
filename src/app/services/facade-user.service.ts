@@ -20,15 +20,12 @@ export class FacadeUserService {
     )
   }
 
-  getUserById$(index:string):void{
-    this._userApiService.getUserById$(index).subscribe(user => {
-        this._storeService.setSelectedUser$(user);
-      })
+  getUserById$(index:string):Observable<User>{
+    return this._userApiService.getUserById$(index).pipe(
+      switchMap( user => this._storeService.setSelectedUser$(user))
+    )
   }
 
-  getSelectedUser$(){
-    return this._storeService.getSelectedUser()
-  }
 
   post$(user:User){
     return this._userApiService.createUser$(user).pipe(

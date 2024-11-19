@@ -21,18 +21,19 @@ export class UpdateUserComponent implements OnInit  {
   private routing:Router = inject(Router);
 
   user$!:Observable<User>
-  user:Observable<User|null> = this._facadeService.getSelectedUser$()
+  user!:Observable<User> 
  
   ngOnInit(): void {
     this.route.paramMap.subscribe((params:ParamMap) =>{
       const index = params.get('id');
       if(index){
-        this._facadeService.getUserById$(index);
+        this.user = this._facadeService.getUserById$(index);
       }
     })
     
   }
 
+  
   updateUser(user:User): void {
    this._facadeService.update$(user);
    this.routing.navigate(['']);
