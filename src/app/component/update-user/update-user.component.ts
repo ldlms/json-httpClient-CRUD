@@ -10,34 +10,25 @@ import { FacadeUserService } from '../../services/facade-user.service';
 @Component({
   selector: 'app-update-user',
   standalone: true,
-  imports: [ FormsModule],
+  imports: [ FormsModule,AsyncPipe],
   templateUrl: './update-user.component.html',
   styleUrl: './update-user.component.css'
 })
 export class UpdateUserComponent implements OnInit  {
 
-  private _userService: UserApiService = inject(UserApiService);
   private _facadeService:FacadeUserService = inject(FacadeUserService);
   private route: ActivatedRoute = inject(ActivatedRoute);
   private routing:Router = inject(Router);
 
   user$!:Observable<User>
-  user:User = {
-    id:'',
-    username:'',
-    email:''
-  }
+  user:Observable<User|null> = this._facadeService.getSelectedUser$()
  
   ngOnInit(): void {
     this.route.paramMap.subscribe((params:ParamMap) =>{
-      const index:string = params.get('id') as string;
-      this._facadeService.getUserById$(index).pipe(
-        map(
-          response => {
-            this.user = response
-          }
-        )
-      )
+      const index = params.get('id');
+      if(index){
+        this._facadeService.getUserById$(index);
+      }
     })
     
   }

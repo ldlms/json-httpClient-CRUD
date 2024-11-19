@@ -10,10 +10,20 @@ export class StoreUserService {
   constructor() { }
 
   private _users$ = new BehaviorSubject<User[]>([])
+  private _selectedUser$ = new BehaviorSubject<User | null>(null)
 
   setAll$(users:User[]):Observable<User[]>{
     this._users$.next(users);
     return this._users$.asObservable();
+  }
+
+  setSelectedUser$(user:User|null):Observable<User|null>{
+    this._selectedUser$.next(user);
+    return this._selectedUser$.asObservable();
+  }
+
+  getSelectedUser(){
+    return this._selectedUser$.asObservable()
   }
 
   add$(user:User):void{
@@ -23,6 +33,7 @@ export class StoreUserService {
   update$(user:User):void{
     const updatedUser = this._users$.value.map(x => x.id == user.id ? user : x );
     this._users$.next(updatedUser);
+    this._selectedUser$.next(null)
   }
 
   delete$(user:User){

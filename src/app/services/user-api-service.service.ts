@@ -20,7 +20,7 @@ export class UserApiService {
   }
 
   createUser$(user:User):Observable<User>{
-    return this._http.post<User>(`${this._BASE_URL}/${user.id}`,user);
+    return this._http.post<User>(this._BASE_URL,user);
   }
 
   DeleteUser$(id:string):Observable<User>{

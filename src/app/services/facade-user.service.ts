@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap, tap } from 'rxjs';
 import { User } from '../models/user';
 import { UserApiService } from './user-api-service.service';
 import { StoreUserService } from './store-user.service';
@@ -20,8 +20,14 @@ export class FacadeUserService {
     )
   }
 
-  getUserById$(index:string):Observable<User>{
-    return this._userApiService.getUserById$(index);
+  getUserById$(index:string):void{
+    this._userApiService.getUserById$(index).subscribe(user => {
+        this._storeService.setSelectedUser$(user);
+      })
+  }
+
+  getSelectedUser$(){
+    return this._storeService.getSelectedUser()
   }
 
   post$(user:User){
